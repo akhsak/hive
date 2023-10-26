@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:stdnlogn/db/model/functions/functions.dart';
 import 'package:stdnlogn/db/model/model/data.dart';
 import 'package:stdnlogn/screen/home.dart';
@@ -23,7 +24,7 @@ class _ListpageState extends State<Listpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.purpleAccent),
+      appBar: AppBar(backgroundColor:  Color.fromARGB(255, 21, 156, 177),),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -39,6 +40,8 @@ class _ListpageState extends State<Listpage> {
                     height: 20,
                   ),
                TextFormField(
+                 keyboardType:TextInputType.text ,
+             //   inputFormatters:[FilteringTex̣tInputFormatter.allow(RegExp(r'[a-zA-z\s]'))],
                 controller: _namecontroller,
                 decoration: InputDecoration(
                   border:OutlineInputBorder(),
@@ -60,7 +63,11 @@ class _ListpageState extends State<Listpage> {
                 height: 20,
                ),
                TextFormField(
-                
+                 keyboardType:TextInputType.phone ,
+
+            inputFormatters:[
+              FilteringTextInputFormatter.digitsOnly
+            ],
                 controller: _agecontroller,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -145,12 +152,6 @@ class _ListpageState extends State<Listpage> {
     final _class=_clascontroller.text.trim();
     final _address=_addresscontroller.text.trim();
     if (_name.isEmpty || _age.isEmpty || _class.isEmpty || _address.isEmpty) {
-      //  ScaffoldMessenger.of(context ).showSnackBar(SnackBar(content: Text('pls fill the field'),
-      //  backgroundColor: Colors.red,
-      //  behavior: SnackBarBehavior.floating,
-      //  //duration: Duration(seconds: 3),
-      //  margin: EdgeInsets.all(20),
-      //  ));
       }
       print('$_name $_age $_class $_address');
         

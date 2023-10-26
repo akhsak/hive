@@ -20,17 +20,11 @@ class MyWidget extends StatelessWidget {
             trailing: 
             Row(mainAxisSize: MainAxisSize.min,
               children: [
-            IconButton(onPressed: (){}, icon: Icon(Icons.edit),),
-            
-            IconButton(onPressed: (){
-              
-               deleteStudent(index);
-           
-             
-            
+            IconButton(onPressed: (){}, icon: Icon(Icons.edit),),         
+            IconButton(onPressed: (){             
+               deleteStudent(index); 
             },
-            icon: Icon(Icons.delete,color: Colors.red,)),
-            
+            icon: Icon(Icons.delete,color: Color.fromARGB(255, 106, 52, 47),)),           
            ],
           )
           );

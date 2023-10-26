@@ -15,14 +15,14 @@ class _homeState extends State<home> {
   @override
   
   Widget build(BuildContext context) {
-     getAllstudent();
+    // getAllstudent();
     
    
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           title: Text('student login'),
-          backgroundColor: Colors.purpleAccent,
+          backgroundColor: Color.fromARGB(255, 21, 156, 177),
           actions: [IconButton(onPressed:(){}, icon: Icon(Icons.search))],
         ),
         
@@ -33,7 +33,7 @@ class _homeState extends State<home> {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => Listpage(),));
            }, 
         label: Text('add stdnt'),icon:Icon(Icons.add),
-        backgroundColor: Colors.purpleAccent),
+        backgroundColor: Color.fromARGB(255, 21, 156, 177),),
       ),
     )  ;
           
