@@ -6,17 +6,15 @@ import 'package:stdnlogn/db/model/functions/functions.dart';
 import 'package:stdnlogn/db/model/model/data.dart';
 import 'package:stdnlogn/screen/home.dart';
 
-class Listpage extends StatefulWidget {
-  const Listpage({super.key});
+class Listpage extends StatelessWidget {
+   Listpage({super.key});
 
-  @override
-  State<Listpage> createState() => _ListpageState();
-}
-
-class _ListpageState extends State<Listpage> {
   final _namecontroller=TextEditingController();
+
   final _agecontroller=TextEditingController();
+
   final _clascontroller=TextEditingController();
+
   final _addresscontroller=TextEditingController();
 
   final _form=GlobalKey<FormState>();
@@ -110,11 +108,16 @@ class _ListpageState extends State<Listpage> {
                 height: 20,
                ),
                TextFormField(
+                 keyboardType:TextInputType.phone ,
+
+            inputFormatters:[
+              FilteringTextInputFormatter.digitsOnly
+            ],
                 controller: _addresscontroller,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: 'Address',
-                  prefixIcon: Icon(Icons.store_sharp),
+                  hintText: 'phone number',
+                  prefixIcon: Icon(Icons.phone),
                 ),
                  validator: (value){
                  
@@ -146,6 +149,7 @@ class _ListpageState extends State<Listpage> {
       
     );
   }
+
   Future<void> _onaddstdclicked()async{
     final _name=_namecontroller.text.trim();
     final _age=_agecontroller.text.trim();

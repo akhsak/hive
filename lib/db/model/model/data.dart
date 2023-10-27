@@ -24,6 +24,6 @@ class StdModel {
   required this.age,
   required this.clas,
   required this.address,
-  this.index});
+  this.index, String? image});
   
 }

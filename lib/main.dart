@@ -4,6 +4,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:stdnlogn/db/model/model/data.dart';
 import 'package:stdnlogn/screen/home.dart';
 
+
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
  await Hive.initFlutter();

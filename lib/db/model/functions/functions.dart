@@ -25,7 +25,7 @@ final stdntDB=await Hive.openBox<StdModel>('stdnt_db');
 getAllstudent();
 }
 
-Future<void> editstudent(StdModel data)async{
+Future<void> editstudent(StdModel data, StdModel updated)async{
 final stdntDB=await Hive.openBox<StdModel>('stdnt_db');
 
 
