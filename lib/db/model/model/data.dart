@@ -20,10 +20,13 @@ class StdModel {
    @HiveField(4) 
   final String address;
 
+  @HiveField(5)
+  final int? image;
+
   StdModel({required this.name, 
   required this.age,
   required this.clas,
   required this.address,
-  this.index, String? image});
+  this.index,this.image});
   
 }

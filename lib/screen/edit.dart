@@ -55,7 +55,8 @@ class _EditpageState extends State<Editpage> {
       await stdntDB.putAt(index, updatedstudent);
       getAllstudent();
 
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyWidget()));
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => MyWidget()));
     }
   }
 

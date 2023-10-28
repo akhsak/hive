@@ -1,14 +1,20 @@
 
-
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:stdnlogn/db/model/functions/functions.dart';
 import 'package:stdnlogn/db/model/model/data.dart';
 import 'package:stdnlogn/screen/home.dart';
 
-class Listpage extends StatelessWidget {
+class Listpage extends StatefulWidget {
    Listpage({super.key});
 
+  @override
+  State<Listpage> createState() => _ListpageState();
+}
+
+class _ListpageState extends State<Listpage> {
   final _namecontroller=TextEditingController();
 
   final _agecontroller=TextEditingController();
@@ -18,6 +24,10 @@ class Listpage extends StatelessWidget {
   final _addresscontroller=TextEditingController();
 
   final _form=GlobalKey<FormState>();
+
+  final ImagePicker image=ImagePicker();
+
+   File? _image;
 
   @override
   Widget build(BuildContext context) {
@@ -30,22 +40,29 @@ class Listpage extends StatelessWidget {
             key:_form,
             child: Column(
               children: [
-                CircleAvatar(child:IconButton(
-                  onPressed: (){}, 
-                  icon: Icon(Icons.add_a_photo)),
-                  radius: 60,),
+                
+                GestureDetector(
+                  child: 
+                  CircleAvatar(child:IconButton(
+                    onPressed: (){}, 
+                    icon: Icon(Icons.add_a_photo)),
+                    radius: 60,),
+                   onTap:() {
+                       _pickImage();
+                      },
+
+                ),
+              
                   SizedBox(
                     height: 20,
                   ),
                TextFormField(
                  keyboardType:TextInputType.text ,
-             //   inputFormatters:[FilteringTex̣tInputFormatter.allow(RegExp(r'[a-zA-z\s]'))],
                 controller: _namecontroller,
                 decoration: InputDecoration(
                   border:OutlineInputBorder(),
                   hintText:'Name',
                   prefixIcon:Icon(Icons.person),
-                  //helperText: 'enter name',
                 ),
                   validator: (value){
                  
@@ -155,7 +172,8 @@ class Listpage extends StatelessWidget {
     final _age=_agecontroller.text.trim();
     final _class=_clascontroller.text.trim();
     final _address=_addresscontroller.text.trim();
-    if (_name.isEmpty || _age.isEmpty || _class.isEmpty || _address.isEmpty) {
+    if (_name.isEmpty || _age.isEmpty ||
+     _class.isEmpty || _address.isEmpty) {
       }
       print('$_name $_age $_class $_address');
         
@@ -166,4 +184,12 @@ class Listpage extends StatelessWidget {
 
       addstudent(_Std);
   }
+
+  Future<void> _pickImage()async {
+  final image= ImagePicker().pickImage(
+    source: ImageSource.camera);
+    setState(() {
+       _image=image as File?; 
+    });
+ }
 }

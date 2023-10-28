@@ -15,6 +15,7 @@ class MyWidget extends StatelessWidget {
           itemBuilder: (context, index) {
             final data = stdList[index];
             return ListTile(
+              leading: CircleAvatar(),
               title: Text(data.name),
               subtitle: Text(data.age),
               trailing: Row(
@@ -30,7 +31,7 @@ class MyWidget extends StatelessWidget {
                            Class:data.clas,
                             phone: data.address, 
                             index: index,
-                          //  image: data.image
+                        //   image: data.image,
                            )
                       ));
                     },
