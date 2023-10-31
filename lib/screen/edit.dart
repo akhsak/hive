@@ -1,9 +1,11 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:stdnlogn/db/model/functions/functions.dart';
 import 'package:stdnlogn/db/model/model/data.dart';
-import 'package:stdnlogn/screen/view.dart';
+import 'package:stdnlogn/screen/home.dart';
+
 
 class Editpage extends StatefulWidget {
   final String name;
@@ -11,7 +13,7 @@ class Editpage extends StatefulWidget {
   final String Class;
   final String phone;
   final int index;
-  // final dynamic image;
+   final String image;
 
   Editpage({
     required this.name,
@@ -19,7 +21,7 @@ class Editpage extends StatefulWidget {
     required this.Class,
     required this.phone,
     required this.index,
-    // required this.image,
+    required this.image,
     Key? key,
   }) : super(key: key);
 
@@ -28,139 +30,122 @@ class Editpage extends StatefulWidget {
 }
 
 class _EditpageState extends State<Editpage> {
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController ageController = TextEditingController();
-  final TextEditingController classController = TextEditingController();
-  final TextEditingController addressController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
+  final TextEditingController _classController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _imagecontroller=TextEditingController();
   final _form = GlobalKey<FormState>();
+
+  File? _image; 
 
   @override
   void initState() {
     super.initState();
-    nameController.text = widget.name;
-    ageController.text = widget.age;
-    classController.text = widget.Class;
-    addressController.text = widget.phone;
+    _nameController.text = widget.name;
+    _ageController.text = widget.age;
+    _classController.text = widget.Class;
+    _phoneController.text = widget.phone;
+  // _image=Widget ._image ! = ''?File(widget.image);
   }
 
   void updatelist(int index) async {
     final stdntDB = await Hive.openBox<StdModel>('stdnt_db');
     if (index >= 0 && index < stdntDB.length) {
       final updatedstudent = StdModel(
-        name: nameController.text,
-        age: ageController.text,
-        clas: classController.text,
-        address: addressController.text,
+        name: _nameController.text,
+        age: _ageController.text,
+        clas: _classController.text,
+        address: _phoneController.text,
+        image: _imagecontroller.text,
       );
       await stdntDB.putAt(index, updatedstudent);
       getAllstudent();
 
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => MyWidget()));
+        builder: (context) => home()));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(backgroundColor: Color.fromARGB(255, 21, 156, 177)),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Form(
-            key: _form,
-            child: Column(
-              children: [
-                CircleAvatar(
-                  child: IconButton(
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(backgroundColor: Color.fromARGB(255, 21, 156, 177)),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Form(
+              key: _form,
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    child: IconButton(
+                      onPressed: () {
+
+                     },
+                      icon: Icon(Icons.add_a_photo),
+                    ),
+                    radius: 60,
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    keyboardType: TextInputType.text,
+                    controller: _nameController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Name',
+                      prefixIcon: Icon(Icons.person),
+                    ),
+                  
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    keyboardType: TextInputType.phone,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    controller: _ageController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Age',
+                      prefixIcon: Icon(Icons.calendar_month_rounded),
+                    ),
+                    
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    controller: _classController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Class',
+                      prefixIcon: Icon(Icons.class_sharp),
+                    ),
+                   
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    keyboardType: TextInputType.phone,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    controller: _phoneController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Phone number',
+                      prefixIcon: Icon(Icons.phone),
+                    ),
+                    
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton.icon(
                     onPressed: () {
-                      // Implement image picker here
+                      if (_form.currentState!.validate()) {
+                        updatelist(widget.index);
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => home()));
+                      }
                     },
-                    icon: Icon(Icons.add_a_photo),
+                    icon: Icon(Icons.save),
+                    label: Text('update'),
                   ),
-                  radius: 60,
-                ),
-                SizedBox(height: 20),
-                TextFormField(
-                  keyboardType: TextInputType.text,
-                  controller: nameController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Name',
-                    prefixIcon: Icon(Icons.person),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Value is empty';
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                SizedBox(height: 20),
-                TextFormField(
-                  keyboardType: TextInputType.phone,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  controller: ageController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Age',
-                    prefixIcon: Icon(Icons.calendar_month_rounded),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Value is empty';
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                SizedBox(height: 20),
-                TextFormField(
-                  controller: classController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Class',
-                    prefixIcon: Icon(Icons.class_sharp),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Value is empty';
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                SizedBox(height: 20),
-                TextFormField(
-                  keyboardType: TextInputType.phone,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  controller: addressController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Phone number',
-                    prefixIcon: Icon(Icons.phone),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Value is empty';
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                SizedBox(height: 20),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    if (_form.currentState!.validate()) {
-                      updatelist(widget.index);
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyWidget()));
-                    }
-                  },
-                  icon: Icon(Icons.save),
-                  label: Text('Submit'),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

@@ -21,7 +21,7 @@ class StdModel {
   final String address;
 
   @HiveField(5)
-  final int? image;
+  final String? image;
 
   StdModel({required this.name, 
   required this.age,

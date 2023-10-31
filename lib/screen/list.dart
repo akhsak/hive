@@ -25,10 +25,12 @@ class _ListpageState extends State<Listpage> {
 
   final _form=GlobalKey<FormState>();
 
-  final ImagePicker image=ImagePicker();
+  //final ImagePicker image=ImagePicker();
 
    File? _image;
+  
 
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,14 +45,15 @@ class _ListpageState extends State<Listpage> {
                 
                 GestureDetector(
                   child: 
-                  CircleAvatar(child:IconButton(
-                    onPressed: (){}, 
-                    icon: Icon(Icons.add_a_photo)),
-                    radius: 60,),
+                  CircleAvatar(                                                              
+                    child: Icon(Icons.add_a_photo),
+                    radius: 60,
+                    backgroundImage: _image!=null? FileImage(_image!):
+                    const AssetImage('asset/avatar.png')as ImageProvider),
                    onTap:() {
-                       _pickImage();
+                       _pickImagefrom();
                       },
-
+    
                 ),
               
                   SizedBox(
@@ -79,7 +82,7 @@ class _ListpageState extends State<Listpage> {
                ),
                TextFormField(
                  keyboardType:TextInputType.phone ,
-
+    
             inputFormatters:[
               FilteringTextInputFormatter.digitsOnly
             ],
@@ -105,6 +108,7 @@ class _ListpageState extends State<Listpage> {
                 height: 20,
                ),
                TextFormField(
+                keyboardType: TextInputType.name,
                 controller:_clascontroller,
                 decoration: InputDecoration(
                   border:OutlineInputBorder(),
@@ -126,7 +130,7 @@ class _ListpageState extends State<Listpage> {
                ),
                TextFormField(
                  keyboardType:TextInputType.phone ,
-
+    
             inputFormatters:[
               FilteringTextInputFormatter.digitsOnly
             ],
@@ -180,16 +184,28 @@ class _ListpageState extends State<Listpage> {
        final _Std= StdModel(name: _name,
          age: _age,
           clas: _class,
-           address: _address);
+           address: _address,
+           image: _image!.path);
 
       addstudent(_Std);
   }
 
-  Future<void> _pickImage()async {
-  final image= ImagePicker().pickImage(
-    source: ImageSource.camera);
-    setState(() {
-       _image=image as File?; 
-    });
+ _pickImagefrom()async{
+  final returnImage=
+  await ImagePicker().pickImage(source:ImageSource.gallery);
+  if (returnImage==null) {
+    return;
+    
+  }
+  setState(() {
+    _image=File(returnImage.path);
+  });
  }
-}
+  // Future<void> _pickImage()async {
+  // final image= ImagePicker().pickImage(
+  //   source: ImageSource.camera);
+  //   setState(() {
+  //      _image=image as File?; 
+  //   });
+ //}
+  }
