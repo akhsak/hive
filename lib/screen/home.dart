@@ -3,9 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:stdnlogn/db/model/functions/functions.dart';
 import 'package:stdnlogn/db/model/model/data.dart';
+import 'package:stdnlogn/screen/details.dart';
 import 'package:stdnlogn/screen/edit.dart';
 import 'package:stdnlogn/screen/list.dart';
-
+import 'package:stdnlogn/screen/details.dart';
 
 
 class home extends StatefulWidget {
@@ -34,6 +35,12 @@ class _homeState extends State<home> {
           itemBuilder: (context, index) {
             final data = stdList[index];
             return ListTile(
+              
+              onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) =>details();
+
+              ));
+              },
               leading: CircleAvatar(
                  backgroundImage: data.image!=null?
               FileImage(File(data.image!)):AssetImage('asset/avatar.png') as ImageProvider
