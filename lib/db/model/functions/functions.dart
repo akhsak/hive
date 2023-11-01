@@ -13,7 +13,7 @@ Future<void> addstudent(StdModel value)async{
 stdListNotifier.value.add(value);
 stdListNotifier.notifyListeners();
 }
-Future<void> getAllstudent() async{
+ getAllstudent() async{
   final stdntDB=await Hive.openBox<StdModel>('stdnt_db');
   stdListNotifier.value.clear();
 

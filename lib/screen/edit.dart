@@ -10,15 +10,15 @@ import 'package:stdnlogn/screen/home.dart';
 class Editpage extends StatefulWidget {
   final String name;
   final String age;
-  final String Class;
+  final String Clss;
   final String phone;
   final int index;
-   final String image;
+  final String image;
 
   Editpage({
     required this.name,
     required this.age,
-    required this.Class,
+    required this.Clss,
     required this.phone,
     required this.index,
     required this.image,
@@ -44,7 +44,7 @@ class _EditpageState extends State<Editpage> {
     super.initState();
     _nameController.text = widget.name;
     _ageController.text = widget.age;
-    _classController.text = widget.Class;
+    _classController.text = widget.Clss;
     _phoneController.text = widget.phone;
   // _image=Widget ._image ! = ''?File(widget.image);
   }

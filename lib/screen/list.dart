@@ -25,7 +25,7 @@ class _ListpageState extends State<Listpage> {
 
   final _form=GlobalKey<FormState>();
 
-  //final ImagePicker image=ImagePicker();
+  final ImagePicker image=ImagePicker();
 
    File? _image;
   
@@ -183,9 +183,9 @@ class _ListpageState extends State<Listpage> {
         
        final _Std= StdModel(name: _name,
          age: _age,
-          clas: _class,
-           address: _address,
-           image: _image!.path);
+        clas: _class,
+         address: _address,
+         image: _image!.path);
 
       addstudent(_Std);
   }
@@ -201,11 +201,11 @@ class _ListpageState extends State<Listpage> {
     _image=File(returnImage.path);
   });
  }
-  // Future<void> _pickImage()async {
-  // final image= ImagePicker().pickImage(
-  //   source: ImageSource.camera);
-  //   setState(() {
-  //      _image=image as File?; 
-  //   });
- //}
+  Future<void> _pickImage()async {
+  final image= ImagePicker().pickImage(
+    source: ImageSource.camera);
+    setState(() {
+       _image=image as File?; 
+    });
+ }
   }
