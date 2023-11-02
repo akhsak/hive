@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stdnlogn/db/model/functions/functions.dart';
 import 'package:stdnlogn/db/model/model/data.dart';
-import 'package:stdnlogn/screen/home.dart';
+import 'package:stdnlogn/screen/addstd.dart';
 
 class Listpage extends StatefulWidget {
   Listpage({super.key});
@@ -18,9 +18,9 @@ class _ListpageState extends State<Listpage> {
 
   final _agecontroller = TextEditingController();
 
-  final _clascontroller = TextEditingController();
+  final _coursecontroller = TextEditingController();
 
-  final _addresscontroller = TextEditingController();
+  final _phonecontroller = TextEditingController();
 
   final _form = GlobalKey<FormState>();
 
@@ -107,11 +107,11 @@ class _ListpageState extends State<Listpage> {
                 ),
                 TextFormField(
                   keyboardType: TextInputType.name,
-                  controller: _clascontroller,
+                  controller: _coursecontroller,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20)),
-                    hintText: 'Class',
+                    hintText: 'Course',
                     prefixIcon: Icon(Icons.class_sharp),
                   ),
                   validator: (value) {
@@ -128,7 +128,7 @@ class _ListpageState extends State<Listpage> {
                 TextFormField(
                   keyboardType: TextInputType.phone,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  controller: _addresscontroller,
+                  controller: _phonecontroller,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20)),
@@ -170,16 +170,16 @@ class _ListpageState extends State<Listpage> {
   Future<void> _onaddstdclicked() async {
     final _name = _namecontroller.text.trim();
     final _age = _agecontroller.text.trim();
-    final _class = _clascontroller.text.trim();
-    final _address = _addresscontroller.text.trim();
-    if (_name.isEmpty || _age.isEmpty || _class.isEmpty || _address.isEmpty) {}
-    print('$_name $_age $_class $_address');
+    final _course = _coursecontroller.text.trim();
+    final _phone = _phonecontroller.text.trim();
+    if (_name.isEmpty || _age.isEmpty || _course.isEmpty || _phone.isEmpty) {}
+    print('$_name $_age $_course $_phone');
 
     final _Std = StdModel(
         name: _name,
         age: _age,
-        clas: _class,
-        address: _address,
+        course: _course,
+        phone: _phone,
         image: _image!.path);
 
     addstudent(_Std);

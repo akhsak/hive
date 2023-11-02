@@ -15,18 +15,18 @@ class StdModel {
   final String age;
 
    @HiveField(3) 
-  final String clas;
+  final String course;
 
    @HiveField(4) 
-  final String address;
+  final String phone;
 
   @HiveField(5)
   final String? image;
 
   StdModel({required this.name, 
   required this.age,
-  required this.clas,
-  required this.address,
+  required this.course,
+  required this.phone,
   this.index,this.image});
   
 }

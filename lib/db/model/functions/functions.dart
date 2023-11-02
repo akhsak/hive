@@ -26,8 +26,13 @@ final stdntDB=await Hive.openBox<StdModel>('stdnt_db');
 getAllstudent();
 }
 
-Future<void> editstudent(StdModel data, StdModel updated)async{
+Future<void> editstudent( data, StdModel updated)async{
 final stdntDB=await Hive.openBox<StdModel>('stdnt_db');
-
-
+// stdListNotifier.value.clear();
+//  stdListNotifier.value.addAll(stdntDB.values);
+//   stdListNotifier.notifyListeners();
+//   stdntDB.putAt(data, updated);
+//   getAllstudent();
 }
+
+

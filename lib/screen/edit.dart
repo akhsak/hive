@@ -5,13 +5,13 @@ import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stdnlogn/db/model/functions/functions.dart';
 import 'package:stdnlogn/db/model/model/data.dart';
-import 'package:stdnlogn/screen/home.dart';
+import 'package:stdnlogn/screen/addstd.dart';
 
 
 class Editpage extends StatefulWidget {
   final String name;
   final String age;
-  final String Clss;
+  final String course;
   final String phone;
   final int index;
   final  image;
@@ -19,7 +19,7 @@ class Editpage extends StatefulWidget {
   Editpage({
     required this.name,
     required this.age,
-    required this.Clss,
+    required this.course,
     required this.phone,
     required this.index,
     required this.image,
@@ -33,9 +33,9 @@ class Editpage extends StatefulWidget {
 class _EditpageState extends State<Editpage> {
   final  _nameController = TextEditingController();
   final _ageController = TextEditingController();
-  final  _classController = TextEditingController();
+  final  _courseController = TextEditingController();
   final  _phoneController = TextEditingController();
-  final _imagecontroller=ImagePicker();
+  //final _imagecontroller=ImagePicker();
   final _form = GlobalKey<FormState>();
 
  // File? _image;
@@ -46,9 +46,9 @@ class _EditpageState extends State<Editpage> {
     super.initState();
     _nameController.text = widget.name;
     _ageController.text = widget.age;
-    _classController.text = widget.Clss;
+    _courseController.text = widget.course;
     _phoneController.text = widget.phone;
-    _imagepath = widget.image != null ? widget.image : null;
+     _imagepath = widget.image != null ? widget.image : null;
 
    //_imagepath=widget.image ! = null ?File(widget.image) : null ;
   }
@@ -58,15 +58,15 @@ class _EditpageState extends State<Editpage> {
     if (index >= 0 && index < stdntDB.length) {
       final updatedstudent = StdModel(
          name: _nameController.text,
-             age: _ageController.text,
-         clas: _classController.text,
-         address: _phoneController.text,
+         age: _ageController.text,
+         course: _courseController.text,
+         phone: _phoneController.text,
           image:_imagepath,
         
         );
       
-      await stdntDB.putAt(index, updatedstudent);
-      await getAllstudent();
+     await stdntDB.putAt(index, updatedstudent);
+    await getAllstudent();
 
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => home()));
@@ -129,10 +129,10 @@ class _EditpageState extends State<Editpage> {
                   ),
                   SizedBox(height: 20),
                   TextFormField(
-                    controller: _classController,
+                    controller: _courseController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: 'Class',
+                      hintText: 'Course',
                       prefixIcon: Icon(Icons.class_sharp),
                     ),
                    

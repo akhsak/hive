@@ -19,8 +19,8 @@ class StdModelAdapter extends TypeAdapter<StdModel> {
     return StdModel(
       name: fields[1] as String,
       age: fields[2] as String,
-      clas: fields[3] as String,
-      address: fields[4] as String,
+      course: fields[3] as String,
+      phone: fields[4] as String,
       index: fields[0] as int?,
       image: fields[5] as String?,
     );
@@ -37,9 +37,9 @@ class StdModelAdapter extends TypeAdapter<StdModel> {
       ..writeByte(2)
       ..write(obj.age)
       ..writeByte(3)
-      ..write(obj.clas)
+      ..write(obj.course)
       ..writeByte(4)
-      ..write(obj.address)
+      ..write(obj.phone)
       ..writeByte(5)
       ..write(obj.image);
   }

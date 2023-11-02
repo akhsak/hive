@@ -1,4 +1,6 @@
+import 'dart:ffi';
 import 'dart:io';
+import 'dart:ui_web';
 
 import 'package:flutter/material.dart';
 import 'package:stdnlogn/db/model/functions/functions.dart';
@@ -89,11 +91,11 @@ class _homeState extends State<home> {
                           return ListTile(
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => detailspage(
+                                  builder: (context) => DetailsPage(
                                       name: data.name,
                                       age: data.age,
-                                      Clss: data.clas,
-                                      phone: data.address,
+                                      course: data.course,
+                                      phone: data.phone,
                                       image: data.image!)));
                             },
                             leading: CircleAvatar(
@@ -113,8 +115,8 @@ class _homeState extends State<home> {
                                             builder: (context) => Editpage(
                                                   name: data.name,
                                                   age: data.age,
-                                                  Clss: data.clas,
-                                                  phone: data.address,
+                                                  course: data.course,
+                                                  phone: data.phone,
                                                   index: index,
                                                   image: data.image!,
                                                 )));
@@ -140,6 +142,7 @@ class _homeState extends State<home> {
                     }),
               ),
               FloatingActionButton.extended(
+                
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => Listpage(),
