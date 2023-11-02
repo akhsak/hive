@@ -5,13 +5,12 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:stdnlogn/db/model/model/data.dart';
 import 'package:stdnlogn/screen/home.dart';
 
-
-Future<void> main() async{
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
- await Hive.initFlutter();
- if( !Hive.isAdapterRegistered(StdModelAdapter().typeId)){
-  Hive.registerAdapter(StdModelAdapter());
- }
+  await Hive.initFlutter();
+  if (!Hive.isAdapterRegistered(StdModelAdapter().typeId)) {
+    Hive.registerAdapter(StdModelAdapter());
+  }
   runApp(const MyApp());
 }
 
@@ -22,7 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home:home(),
+      home: home(),
     );
   }
 }
