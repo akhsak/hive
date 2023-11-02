@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:stdnlogn/db/model/functions/functions.dart';
 import 'package:stdnlogn/db/model/model/data.dart';
 import 'package:stdnlogn/screen/home.dart';
@@ -13,7 +14,7 @@ class Editpage extends StatefulWidget {
   final String Clss;
   final String phone;
   final int index;
-  final String image;
+  final  image;
 
   Editpage({
     required this.name,
@@ -30,14 +31,15 @@ class Editpage extends StatefulWidget {
 }
 
 class _EditpageState extends State<Editpage> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _ageController = TextEditingController();
-  final TextEditingController _classController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _imagecontroller=TextEditingController();
+  final  _nameController = TextEditingController();
+  final _ageController = TextEditingController();
+  final  _classController = TextEditingController();
+  final  _phoneController = TextEditingController();
+  final _imagecontroller=ImagePicker();
   final _form = GlobalKey<FormState>();
 
-  File? _image; 
+ // File? _image;
+ String? _imagepath; 
 
   @override
   void initState() {
@@ -46,21 +48,30 @@ class _EditpageState extends State<Editpage> {
     _ageController.text = widget.age;
     _classController.text = widget.Clss;
     _phoneController.text = widget.phone;
-  // _image=Widget ._image ! = ''?File(widget.image);
+    _imagepath = widget.image != null ? widget.image : null;
+
+   //_imagepath=widget.image ! = null ?File(widget.image) : null ;
   }
 
   void updatelist(int index) async {
     final stdntDB = await Hive.openBox<StdModel>('stdnt_db');
     if (index >= 0 && index < stdntDB.length) {
       final updatedstudent = StdModel(
-        name: _nameController.text,
-        age: _ageController.text,
-        clas: _classController.text,
-        address: _phoneController.text,
-        image: _imagecontroller.text,
-      );
+        // name: _nameController.text,
+        // age: _ageController.text,
+        // clas: _classController.text,
+        // address: _phoneController.text,
+        // image: _imagecontroller!.path
+         name: _nameController.text,
+             age: _ageController.text,
+         clas: _classController.text,
+         address: _phoneController.text,
+          image:_imagepath,
+        
+        );
+      
       await stdntDB.putAt(index, updatedstudent);
-      getAllstudent();
+      await getAllstudent();
 
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => home()));
@@ -79,15 +90,25 @@ class _EditpageState extends State<Editpage> {
               key: _form,
               child: Column(
                 children: [
-                  CircleAvatar(
-                    child: IconButton(
-                      onPressed: () {
-
-                     },
-                      icon: Icon(Icons.add_a_photo),
-                    ),
-                    radius: 60,
-                  ),
+                   GestureDetector(
+                  child: CircleAvatar(
+                      child: Icon(Icons.add_a_photo),
+                      radius: 60,
+                      backgroundImage: _imagepath != null
+                          ? FileImage(File(_imagepath!))
+                          : const AssetImage('asset/avatar.png')
+                              as ImageProvider),
+                  onTap: () {
+                   _pickImageCamera();
+                  },
+                ),
+                 GestureDetector(
+                  child: ElevatedButton(onPressed: (){
+                    _pickImageGallery();
+                  },
+                   child: Text('Gallary')),
+                 
+                ),
                   SizedBox(height: 20),
                   TextFormField(
                     keyboardType: TextInputType.text,
@@ -151,5 +172,25 @@ class _EditpageState extends State<Editpage> {
         ),
       ),
     );
+    
   }
+  _pickImageCamera() async {
+  final returnImage = await ImagePicker().pickImage(source: ImageSource.camera);
+  if (returnImage == null) {
+    return;
+  }
+  setState(() {
+    _imagepath = returnImage.path;
+  });
+}
+
+_pickImageGallery() async {
+  final returnImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+  if (returnImage == null) {
+    return;
+  }
+  setState(() {
+    _imagepath = returnImage.path;
+  });
+}
 }
