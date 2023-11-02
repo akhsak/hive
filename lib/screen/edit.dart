@@ -57,11 +57,6 @@ class _EditpageState extends State<Editpage> {
     final stdntDB = await Hive.openBox<StdModel>('stdnt_db');
     if (index >= 0 && index < stdntDB.length) {
       final updatedstudent = StdModel(
-        // name: _nameController.text,
-        // age: _ageController.text,
-        // clas: _classController.text,
-        // address: _phoneController.text,
-        // image: _imagecontroller!.path
          name: _nameController.text,
              age: _ageController.text,
          clas: _classController.text,
