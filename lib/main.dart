@@ -1,9 +1,9 @@
-import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:stdnlogn/db/model/model/data.dart';
-import 'package:stdnlogn/screen/addstd.dart';
+import 'package:stdnlogn/screen/list.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,4 +1,4 @@
- import 'dart:io';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 
@@ -29,14 +29,12 @@ class _DetailsPageState extends State<DetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 19, 155, 165),
         title: Text('Profile'),
         centerTitle: true,
       ),
-      
-      body:
-       SingleChildScrollView(
-         child: Center(
-          
+      body: SingleChildScrollView(
+        child: Center(
           child: Container(
             margin: EdgeInsets.all(90),
             child: Column(
@@ -44,16 +42,14 @@ class _DetailsPageState extends State<DetailsPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 CircleAvatar(
-                 backgroundColor: Colors.cyan,
+                  backgroundColor: Color.fromARGB(255, 17, 159, 178),
                   radius: 70,
                   child: CircleAvatar(
                     backgroundImage: FileImage(File(widget.image!)),
                     radius: 90,
                   ),
-              ),
-              
-                SizedBox(height: 20), 
-       
+                ),
+                SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
@@ -81,13 +77,12 @@ class _DetailsPageState extends State<DetailsPage> {
                     'Phone: ${widget.phone}',
                     style: TextStyle(fontSize: 20),
                   ),
-                ),           
-              ],          
-         ),
-         ),
-              ),
-       ),
-     );
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
- }
-
+}

@@ -5,8 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stdnlogn/db/model/functions/functions.dart';
 import 'package:stdnlogn/db/model/model/data.dart';
-import 'package:stdnlogn/screen/addstd.dart';
-
+import 'package:stdnlogn/screen/list.dart';
 
 class Editpage extends StatefulWidget {
   final String name;
@@ -14,7 +13,7 @@ class Editpage extends StatefulWidget {
   final String course;
   final String phone;
   final int index;
-  final  image;
+  final image;
 
   Editpage({
     required this.name,
@@ -31,15 +30,15 @@ class Editpage extends StatefulWidget {
 }
 
 class _EditpageState extends State<Editpage> {
-  final  _nameController = TextEditingController();
+  final _nameController = TextEditingController();
   final _ageController = TextEditingController();
-  final  _courseController = TextEditingController();
-  final  _phoneController = TextEditingController();
+  final _courseController = TextEditingController();
+  final _phoneController = TextEditingController();
   //final _imagecontroller=ImagePicker();
   final _form = GlobalKey<FormState>();
 
- // File? _image;
- String? _imagepath; 
+  // File? _image;
+  String? _imagepath;
 
   @override
   void initState() {
@@ -48,28 +47,27 @@ class _EditpageState extends State<Editpage> {
     _ageController.text = widget.age;
     _courseController.text = widget.course;
     _phoneController.text = widget.phone;
-     _imagepath = widget.image != null ? widget.image : null;
+    _imagepath = widget.image != null ? widget.image : null;
 
-   //_imagepath=widget.image ! = null ?File(widget.image) : null ;
+    //_imagepath=widget.image ! = null ?File(widget.image) : null ;
   }
 
   void updatelist(int index) async {
     final stdntDB = await Hive.openBox<StdModel>('stdnt_db');
     if (index >= 0 && index < stdntDB.length) {
       final updatedstudent = StdModel(
-         name: _nameController.text,
-         age: _ageController.text,
-         course: _courseController.text,
-         phone: _phoneController.text,
-          image:_imagepath,
-        
-        );
-      
-     await stdntDB.putAt(index, updatedstudent);
-    await getAllstudent();
+        name: _nameController.text,
+        age: _ageController.text,
+        course: _courseController.text,
+        phone: _phoneController.text,
+        image: _imagepath,
+      );
 
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => home()));
+      await stdntDB.putAt(index, updatedstudent);
+      await getAllstudent();
+
+      // Navigator.of(context)
+      //     .push(MaterialPageRoute(builder: (context) => home()));
     }
   }
 
@@ -85,25 +83,25 @@ class _EditpageState extends State<Editpage> {
               key: _form,
               child: Column(
                 children: [
-                   GestureDetector(
-                  child: CircleAvatar(
-                      child: Icon(Icons.add_a_photo),
-                      radius: 60,
-                      backgroundImage: _imagepath != null
-                          ? FileImage(File(_imagepath!))
-                          : const AssetImage('asset/avatar.png')
-                              as ImageProvider),
-                  onTap: () {
-                   _pickImageCamera();
-                  },
-                ),
-                 GestureDetector(
-                  child: ElevatedButton(onPressed: (){
-                    _pickImageGallery();
-                  },
-                   child: Text('Gallary')),
-                 
-                ),
+                  GestureDetector(
+                    child: CircleAvatar(
+                        child: Icon(Icons.add_a_photo),
+                        radius: 60,
+                        backgroundImage: _imagepath != null
+                            ? FileImage(File(_imagepath!))
+                            : const AssetImage('asset/avatar.png')
+                                as ImageProvider),
+                    onTap: () {
+                      _pickImageCamera();
+                    },
+                  ),
+                  GestureDetector(
+                    child: ElevatedButton(
+                        onPressed: () {
+                          _pickImageGallery();
+                        },
+                        child: Text('Gallary')),
+                  ),
                   SizedBox(height: 20),
                   TextFormField(
                     keyboardType: TextInputType.text,
@@ -113,7 +111,6 @@ class _EditpageState extends State<Editpage> {
                       hintText: 'Name',
                       prefixIcon: Icon(Icons.person),
                     ),
-                  
                   ),
                   SizedBox(height: 20),
                   TextFormField(
@@ -125,7 +122,6 @@ class _EditpageState extends State<Editpage> {
                       hintText: 'Age',
                       prefixIcon: Icon(Icons.calendar_month_rounded),
                     ),
-                    
                   ),
                   SizedBox(height: 20),
                   TextFormField(
@@ -135,7 +131,6 @@ class _EditpageState extends State<Editpage> {
                       hintText: 'Course',
                       prefixIcon: Icon(Icons.class_sharp),
                     ),
-                   
                   ),
                   SizedBox(height: 20),
                   TextFormField(
@@ -147,14 +142,15 @@ class _EditpageState extends State<Editpage> {
                       hintText: 'Phone number',
                       prefixIcon: Icon(Icons.phone),
                     ),
-                    
                   ),
                   SizedBox(height: 20),
                   ElevatedButton.icon(
+                    
                     onPressed: () {
                       if (_form.currentState!.validate()) {
                         updatelist(widget.index);
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => home()));
+                        Navigator.of(context).pop(
+                            MaterialPageRoute(builder: (context) => home()));
                       }
                     },
                     icon: Icon(Icons.save),
@@ -167,25 +163,27 @@ class _EditpageState extends State<Editpage> {
         ),
       ),
     );
-    
   }
-  _pickImageCamera() async {
-  final returnImage = await ImagePicker().pickImage(source: ImageSource.camera);
-  if (returnImage == null) {
-    return;
-  }
-  setState(() {
-    _imagepath = returnImage.path;
-  });
-}
 
-_pickImageGallery() async {
-  final returnImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-  if (returnImage == null) {
-    return;
+  _pickImageCamera() async {
+    final returnImage =
+        await ImagePicker().pickImage(source: ImageSource.camera);
+    if (returnImage == null) {
+      return;
+    }
+    setState(() {
+      _imagepath = returnImage.path;
+    });
   }
-  setState(() {
-    _imagepath = returnImage.path;
-  });
-}
+
+  _pickImageGallery() async {
+    final returnImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (returnImage == null) {
+      return;
+    }
+    setState(() {
+      _imagepath = returnImage.path;
+    });
+  }
 }

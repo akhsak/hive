@@ -1,210 +1,162 @@
 import 'dart:io';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:stdnlogn/db/model/functions/functions.dart';
 import 'package:stdnlogn/db/model/model/data.dart';
+import 'package:stdnlogn/screen/details.dart';
+import 'package:stdnlogn/screen/edit.dart';
 import 'package:stdnlogn/screen/addstd.dart';
 
-class Listpage extends StatefulWidget {
-  Listpage({super.key});
+class home extends StatefulWidget {
+  const home({super.key});
 
   @override
-  State<Listpage> createState() => _ListpageState();
+  State<home> createState() => _homeState();
 }
 
-class _ListpageState extends State<Listpage> {
-  final _namecontroller = TextEditingController();
+class _homeState extends State<home> {
+  //search//
+  String _search = '';
+  List<StdModel> searchlist = [];
+  List<StdModel> studlist = [];
 
-  final _agecontroller = TextEditingController();
+  Future<void> allstud() async {
+    final allstud = getAllstudent();
+    stdListNotifier.value = allstud;
+  }
 
-  final _coursecontroller = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    searchresult();
+    allstud();
+  }
 
-  final _phonecontroller = TextEditingController();
-
-  final _form = GlobalKey<FormState>();
-
-  //final ImagePicker image = ImagePicker();
-
-  File? _image;
+  void searchresult() {
+    setState(() {
+      searchlist = stdListNotifier.value
+          .where((StudentModel) =>
+              StudentModel.name.toLowerCase().contains(_search.toLowerCase()))
+          .toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    getAllstudent();
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 21, 156, 177),
-        
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Form(
-            key: _form,
-            child: Column(
-              children: [
-                GestureDetector(
-                  child: CircleAvatar(
-                      child: Icon(Icons.add_a_photo),
-                      radius: 60,
-                      backgroundImage: _image != null
-                          ? FileImage(_image!)
-                          : const AssetImage('asset/avatar.png')
-                              as ImageProvider),
-                  onTap: () {
-                    _pickImagecamera();
-                  },
-                ),
-                 GestureDetector(
-                  child: ElevatedButton(onPressed: (){
-                    _pickImageGallary();
-                  },
-                   child: Text('Gallary')),
-                 
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  keyboardType: TextInputType.text,
-                  controller: _namecontroller,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    hintText: 'Name',
-                    prefixIcon: Icon(Icons.person),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'value is empty';
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  keyboardType: TextInputType.phone,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  controller: _agecontroller,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    hintText: 'Age',
-                    prefixIcon: Icon(Icons.calendar_month_rounded),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'value is empty';
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  keyboardType: TextInputType.name,
-                  controller: _coursecontroller,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    hintText: 'Course',
-                    prefixIcon: Icon(Icons.class_sharp),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'value is empty';
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  keyboardType: TextInputType.phone,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  controller: _phonecontroller,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    hintText: 'phone number',
-                    prefix: Text("+91"),
-                    prefixIcon: Icon(Icons.phone),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'value is empty';
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    if (_form.currentState!.validate()) {
-                      _onaddstdclicked();
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => home(),
-                      ));
-                    }
-                  },
-                  icon: Icon(Icons.save),
-                  label: Text('submit'),
-                ),
-              ],
-            ),
-          ),
+        appBar: AppBar(
+          title: Text('student login'),
+          backgroundColor: Color.fromARGB(255, 21, 156, 177),
         ),
-      ),
-    );
-  }
-
-  Future<void> _onaddstdclicked() async {
-    final _name = _namecontroller.text.trim();
-    final _age = _agecontroller.text.trim();
-    final _course = _coursecontroller.text.trim();
-    final _phone = _phonecontroller.text.trim();
-    if (_name.isEmpty || _age.isEmpty || _course.isEmpty || _phone.isEmpty) {}
-    print('$_name $_age $_course $_phone');
-
-    final _Std = StdModel(
-        name: _name,
-        age: _age,
-        course: _course,
-        phone: _phone,
-        image: _image!.path);
-
-    addstudent(_Std);
-  }
-
-  _pickImageGallary() async {
-    final returnImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (returnImage == null) {
-      return;
-    }
-    setState(() {
-      _image = File(returnImage.path);
-    });
-  }
-
-  Future<void> _pickImagecamera() async {
-    final rtnimage =
-    await ImagePicker().pickImage(source: ImageSource.camera);
-    if (rtnimage == null) {
-      return;
-    }
-
-    setState(() {
-     _image= File(rtnimage.path);
-    });
+        body: Container(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: TextFormField(
+                  style: TextStyle(color: Colors.black),
+                  decoration: InputDecoration(
+                    hintText: 'search',
+                    contentPadding: EdgeInsets.all(10),
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _search = value;
+                    });
+                    searchresult();
+                  },
+                ),
+              ),
+              Expanded(
+                child: ValueListenableBuilder(
+                    valueListenable: stdListNotifier,
+                    builder: (BuildContext context, List<StdModel> stdList,
+                        Widget? child) {
+                      final displyedstudents =
+                          searchlist.isNotEmpty ? searchlist : stdList;
+                      return ListView.separated(
+                        itemBuilder: (context, index) {
+                          final data = displyedstudents[index];
+                          return ListTile(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => DetailsPage(
+                                      name: data.name,
+                                      age: data.age,
+                                      course: data.course,
+                                      phone: data.phone,
+                                      image: data.image!)));
+                            },
+                            leading: CircleAvatar(
+                                backgroundImage: data.image != null
+                                    ? FileImage(File(data.image!))
+                                    : AssetImage('asset/avatar.png')
+                                        as ImageProvider),
+                            title: Text(data.name),
+                            subtitle: Text(data.age),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                            builder: (context) => Editpage(
+                                                  name: data.name,
+                                                  age: data.age,
+                                                  course: data.course,
+                                                  phone: data.phone,
+                                                  index: index,
+                                                  image: data.image!,
+                                                )));
+                                  },
+                                  icon: Icon(Icons.edit, color: Colors.black),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    deleteStudent(index);
+                                  },
+                                  icon: Icon(Icons.delete,
+                                      color: Color.fromARGB(255, 106, 52, 47)),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const Divider();
+                        },
+                        itemCount: displyedstudents.length,
+                      );
+                    }),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  bottom: 15,
+                ),
+                child: FloatingActionButton.extended(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Listpage(),
+                    ));
+                  },
+                  label: Text('add stdnt'),
+                  icon: Icon(Icons.add),
+                  backgroundColor: Color.fromARGB(255, 21, 156, 177),
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }
