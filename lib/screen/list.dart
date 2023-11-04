@@ -8,14 +8,14 @@ import 'package:stdnlogn/screen/details.dart';
 import 'package:stdnlogn/screen/edit.dart';
 import 'package:stdnlogn/screen/addstd.dart';
 
-class home extends StatefulWidget {
-  const home({super.key});
+class listpage extends StatefulWidget {
+  const listpage({super.key});
 
   @override
-  State<home> createState() => _homeState();
+  State<listpage> createState() => _listpageState();
 }
 
-class _homeState extends State<home> {
+class _listpageState extends State<listpage> {
   //search//
   String _search = '';
   List<StdModel> searchlist = [];
@@ -147,7 +147,7 @@ class _homeState extends State<home> {
                 child: FloatingActionButton.extended(
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => Listpage(),
+                      builder: (context) => addpage(),
                     ));
                   },
                   label: Text('add student'),

@@ -6,14 +6,14 @@ import 'package:stdnlogn/db/model/functions/functions.dart';
 import 'package:stdnlogn/db/model/model/data.dart';
 import 'package:stdnlogn/screen/list.dart';
 
-class Listpage extends StatefulWidget {
-  Listpage({super.key});
+class addpage extends StatefulWidget {
+  addpage({super.key});
 
   @override
-  State<Listpage> createState() => _ListpageState();
+  State<addpage> createState() => _addpageState();
 }
 
-class _ListpageState extends State<Listpage> {
+class _addpageState extends State<addpage> {
   final _namecontroller = TextEditingController();
 
   final _agecontroller = TextEditingController();
@@ -163,7 +163,7 @@ class _ListpageState extends State<Listpage> {
                     if (_form.currentState!.validate()) {
                       _onaddstdclicked();
                       Navigator.of(context).pop(MaterialPageRoute(
-                        builder: (context) => home(),
+                        builder: (context) => listpage(),
                       ));
                     }
                   },

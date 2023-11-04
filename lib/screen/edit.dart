@@ -7,6 +7,14 @@ import 'package:stdnlogn/db/model/functions/functions.dart';
 import 'package:stdnlogn/db/model/model/data.dart';
 import 'package:stdnlogn/screen/list.dart';
 
+
+  final nameController = TextEditingController();
+  final ageController = TextEditingController();
+  final courseController = TextEditingController();
+  final phoneController = TextEditingController();
+  final _form = GlobalKey<FormState>();
+  String? imagepath;
+
 class Editpage extends StatefulWidget {
   final String name;
   final String age;
@@ -30,39 +38,19 @@ class Editpage extends StatefulWidget {
 }
 
 class _EditpageState extends State<Editpage> {
-  final _nameController = TextEditingController();
-  final _ageController = TextEditingController();
-  final _courseController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _form = GlobalKey<FormState>();
-  String? _imagepath;
+  
   @override
   void initState() {
     super.initState();
-    _nameController.text = widget.name;
-    _ageController.text = widget.age;
-    _courseController.text = widget.course;
-    _phoneController.text = widget.phone;
-    _imagepath = widget.image != null ? widget.image : null;
+    nameController.text = widget.name;
+    ageController.text = widget.age;
+    courseController.text = widget.course;
+    phoneController.text = widget.phone;
+    imagepath = widget.image != null ? widget.image : null;
 
   }
 
-  void updatelist(int index) async {
-    final stdntDB = await Hive.openBox<StdModel>('stdnt_db');
-    if (index >= 0 && index < stdntDB.length) {
-      final updatedstudent = StdModel(
-        name: _nameController.text,
-        age: _ageController.text,
-        course: _courseController.text,
-        phone: _phoneController.text,
-        image: _imagepath,
-      );
-
-      await stdntDB.putAt(index, updatedstudent);
-      await getAllstudent();
-
-    }
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -80,25 +68,25 @@ class _EditpageState extends State<Editpage> {
                     child: CircleAvatar(
                         child: Icon(Icons.add_a_photo),
                         radius: 60,
-                        backgroundImage: _imagepath != null
-                            ? FileImage(File(_imagepath!))
+                        backgroundImage: imagepath != null
+                            ? FileImage(File(imagepath!))
                             : const AssetImage('asset/avatar.png')
                                 as ImageProvider),
                     onTap: () {
-                      _pickImageCamera();
+                      _pickImage(ImageSource.camera);
                     },
                   ),
                   GestureDetector(
                     child: ElevatedButton(
                         onPressed: () {
-                          _pickImageGallery();
+                          _pickImage(ImageSource.gallery);
                         },
                         child: Text('Gallary')),
                   ),
                   SizedBox(height: 20),
                   TextFormField(
                     keyboardType: TextInputType.text,
-                    controller: _nameController,
+                    controller: nameController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Name',
@@ -109,7 +97,7 @@ class _EditpageState extends State<Editpage> {
                   TextFormField(
                     keyboardType: TextInputType.phone,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    controller: _ageController,
+                    controller: ageController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Age',
@@ -118,7 +106,7 @@ class _EditpageState extends State<Editpage> {
                   ),
                   SizedBox(height: 20),
                   TextFormField(
-                    controller: _courseController,
+                    controller: courseController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Course',
@@ -129,7 +117,7 @@ class _EditpageState extends State<Editpage> {
                   TextFormField(
                     keyboardType: TextInputType.phone,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    controller: _phoneController,
+                    controller: phoneController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: 'Phone number',
@@ -143,7 +131,7 @@ class _EditpageState extends State<Editpage> {
                       if (_form.currentState!.validate()) {
                         updatelist(widget.index);
                         Navigator.of(context).pop(
-                            MaterialPageRoute(builder: (context) => home()));
+                            MaterialPageRoute(builder: (context) => listpage()));
                       }
                     },
                     icon: Icon(Icons.save),
@@ -158,25 +146,26 @@ class _EditpageState extends State<Editpage> {
     );
   }
 
-  _pickImageCamera() async {
+  _pickImage(ImageSource source) async {
     final returnImage =
-        await ImagePicker().pickImage(source: ImageSource.camera);
+        await ImagePicker().pickImage(source: source
+        );
     if (returnImage == null) {
       return;
     }
     setState(() {
-      _imagepath = returnImage.path;
+      imagepath = returnImage.path;
     });
   }
 
-  _pickImageGallery() async {
-    final returnImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (returnImage == null) {
-      return;
-    }
-    setState(() {
-      _imagepath = returnImage.path;
-    });
+  // _pickImageGallery() async {
+  //   final returnImage =
+  //       await ImagePicker().pickImage(source: ImageSource.gallery);
+  //   if (returnImage == null) {
+  //     return;
+  //   }
+  //   setState(() {
+  //     imagepath = returnImage.path;
+  //   });
   }
-}
+
