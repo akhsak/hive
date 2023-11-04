@@ -24,7 +24,6 @@ class _ListpageState extends State<Listpage> {
 
   final _form = GlobalKey<FormState>();
 
-  //final ImagePicker image = ImagePicker();
 
   File? _image;
 

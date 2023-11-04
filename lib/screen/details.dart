@@ -1,5 +1,5 @@
-import 'dart:io';
 
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 class DetailsPage extends StatefulWidget {
@@ -23,8 +23,6 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
-  File? _image;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,51 +34,83 @@ class _DetailsPageState extends State<DetailsPage> {
       body: SingleChildScrollView(
         child: Center(
           child: Container(
-            margin: EdgeInsets.all(90),
+            margin: EdgeInsets.all(20), 
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 CircleAvatar(
-                  backgroundColor: Color.fromARGB(255, 17, 159, 178),
-                  radius: 70,
-                  child: CircleAvatar(
-                    backgroundImage: FileImage(File(widget.image!)),
-                    radius: 90,
-                  ),
+                  backgroundImage: FileImage(File(widget.image)),
+                  radius: 80,
                 ),
                 SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Name: ${widget.name}',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
+                ProfileCard(
+                  title: 'Name',
+                  content: widget.name,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Age: ${widget.age}',
-                    style: TextStyle(fontSize: 20),
-                  ),
+                ProfileCard(
+                  title: 'Age',
+                  content: widget.age,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Course: ${widget.course}',
-                    style: TextStyle(fontSize: 20),
-                  ),
+                ProfileCard(
+                  title: 'Course',
+                  content: widget.course,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Phone: ${widget.phone}',
-                    style: TextStyle(fontSize: 20),
-                  ),
+                ProfileCard(
+                  title: 'Phone',
+                  content: widget.phone,
                 ),
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ProfileCard extends StatelessWidget {
+  final String title;
+  final String content;
+
+  const ProfileCard({
+    required this.title,
+    required this.content,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      color: Colors.white, 
+      child: Container(
+        padding: EdgeInsets.all(20),
+        width: double.infinity,
+        height: 100,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 19, 155, 165), 
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              content,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 19, 155, 165) 
+              ),
+            ),
+          ],
         ),
       ),
     );

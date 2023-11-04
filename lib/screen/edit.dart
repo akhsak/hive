@@ -34,12 +34,8 @@ class _EditpageState extends State<Editpage> {
   final _ageController = TextEditingController();
   final _courseController = TextEditingController();
   final _phoneController = TextEditingController();
-  //final _imagecontroller=ImagePicker();
   final _form = GlobalKey<FormState>();
-
-  // File? _image;
   String? _imagepath;
-
   @override
   void initState() {
     super.initState();
@@ -49,7 +45,6 @@ class _EditpageState extends State<Editpage> {
     _phoneController.text = widget.phone;
     _imagepath = widget.image != null ? widget.image : null;
 
-    //_imagepath=widget.image ! = null ?File(widget.image) : null ;
   }
 
   void updatelist(int index) async {
@@ -66,8 +61,6 @@ class _EditpageState extends State<Editpage> {
       await stdntDB.putAt(index, updatedstudent);
       await getAllstudent();
 
-      // Navigator.of(context)
-      //     .push(MaterialPageRoute(builder: (context) => home()));
     }
   }
 

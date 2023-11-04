@@ -150,7 +150,7 @@ class _homeState extends State<home> {
                       builder: (context) => Listpage(),
                     ));
                   },
-                  label: Text('add stdnt'),
+                  label: Text('add student'),
                   icon: Icon(Icons.add),
                   backgroundColor: Color.fromARGB(255, 21, 156, 177),
                 ),
