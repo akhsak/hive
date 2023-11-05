@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 
@@ -30,38 +29,36 @@ class _DetailsPageState extends State<DetailsPage> {
         backgroundColor: Color.fromARGB(255, 19, 155, 165),
         title: Text('Profile'),
         centerTitle: true,
+        elevation: 0,
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Container(
-            margin: EdgeInsets.all(20), 
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  backgroundImage: FileImage(File(widget.image)),
-                  radius: 80,
-                ),
-                SizedBox(height: 20),
-                ProfileCard(
-                  title: 'Name',
-                  content: widget.name,
-                ),
-                ProfileCard(
-                  title: 'Age',
-                  content: widget.age,
-                ),
-                ProfileCard(
-                  title: 'Course',
-                  content: widget.course,
-                ),
-                ProfileCard(
-                  title: 'Phone',
-                  content: widget.phone,
-                ),
-              ],
-            ),
+      
+      body:SingleChildScrollView (
+        child: Container(
+          margin: EdgeInsets.all(20),
+          child: Column(
+            children: [
+              CircleAvatar(
+                backgroundImage: FileImage(File(widget.image)),
+                radius: 80,
+              ),
+              SizedBox(height: 20),
+              ProfileCard(
+                title: 'Name',
+                content: widget.name,
+              ),          
+              ProfileCard(
+                title: 'Age',
+                content: widget.age,
+              ),
+              ProfileCard(
+                title: 'Course',
+                content: widget.course,
+              ),
+              ProfileCard(
+                title: 'Phone',
+                content: widget.phone,
+              ),
+            ],
           ),
         ),
       ),
@@ -85,7 +82,7 @@ class ProfileCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
-      color: Colors.white, 
+      color: Colors.white,
       child: Container(
         padding: EdgeInsets.all(20),
         width: double.infinity,
@@ -98,17 +95,16 @@ class ProfileCard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 19, 155, 165), 
+                color: Color.fromARGB(255, 19, 155, 165),
               ),
             ),
             SizedBox(height: 8),
             Text(
               content,
               style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 19, 155, 165) 
-              ),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 19, 155, 165)),
             ),
           ],
         ),

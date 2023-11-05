@@ -28,7 +28,6 @@ class _listpageState extends State<listpage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     searchresult();
     allstud();
@@ -51,6 +50,7 @@ class _listpageState extends State<listpage> {
         appBar: AppBar(
           title: Text('student login'),
           backgroundColor: Color.fromARGB(255, 21, 156, 177),
+          elevation: 0,
         ),
         body: Container(
           child: Column(
@@ -87,49 +87,56 @@ class _listpageState extends State<listpage> {
                       return ListView.separated(
                         itemBuilder: (context, index) {
                           final data = displyedstudents[index];
-                          return ListTile(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => DetailsPage(
-                                      name: data.name,
-                                      age: data.age,
-                                      course: data.course,
-                                      phone: data.phone,
-                                      image: data.image!)));
-                            },
-                            leading: CircleAvatar(
-                                backgroundImage: data.image != null
-                                    ? FileImage(File(data.image!))
-                                    : AssetImage('asset/avatar.png')
-                                        as ImageProvider),
-                            title: Text(data.name),
-                            subtitle: Text(data.age),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                            builder: (context) => Editpage(
-                                                  name: data.name,
-                                                  age: data.age,
-                                                  course: data.course,
-                                                  phone: data.phone,
-                                                  index: index,
-                                                  image: data.image!,
-                                                )));
-                                  },
-                                  icon: Icon(Icons.edit, color: Colors.black),
+                          return Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Card(
+                              elevation: 8,
+                              color: Color.fromARGB(255, 228, 226, 226),
+                              child: ListTile(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => DetailsPage(
+                                          name: data.name,
+                                          age: data.age,
+                                          course: data.course,
+                                          phone: data.phone,
+                                          image: data.image!)));
+                                },
+                                leading: CircleAvatar(
+                                    backgroundImage: data.image != null
+                                        ? FileImage(File(data.image!))
+                                        : AssetImage('asset/avatar.png')
+                                            as ImageProvider),
+                                title: Text(data.name),
+                                subtitle: Text(data.age),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .push(MaterialPageRoute(
+                                                builder: (context) => Editpage(
+                                                      name: data.name,
+                                                      age: data.age,
+                                                      course: data.course,
+                                                      phone: data.phone,
+                                                      index: index,
+                                                      image: data.image!,
+                                                    )));
+                                      },
+                                      icon: Icon(Icons.edit, color: Colors.black),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        deleteStudent(index);
+                                      },
+                                      icon: Icon(Icons.delete,
+                                          color: Color.fromARGB(255, 106, 52, 47)),
+                                    ),
+                                  ],
                                 ),
-                                IconButton(
-                                  onPressed: () {
-                                    deleteStudent(index);
-                                  },
-                                  icon: Icon(Icons.delete,
-                                      color: Color.fromARGB(255, 106, 52, 47)),
-                                ),
-                              ],
+                              ),
                             ),
                           );
                         },

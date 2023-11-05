@@ -7,13 +7,12 @@ import 'package:stdnlogn/db/model/functions/functions.dart';
 import 'package:stdnlogn/db/model/model/data.dart';
 import 'package:stdnlogn/screen/list.dart';
 
-
-  final nameController = TextEditingController();
-  final ageController = TextEditingController();
-  final courseController = TextEditingController();
-  final phoneController = TextEditingController();
-  final _form = GlobalKey<FormState>();
-  String? imagepath;
+final nameController = TextEditingController();
+final ageController = TextEditingController();
+final courseController = TextEditingController();
+final phoneController = TextEditingController();
+final _form = GlobalKey<FormState>();
+String? imagepath;
 
 class Editpage extends StatefulWidget {
   final String name;
@@ -38,7 +37,6 @@ class Editpage extends StatefulWidget {
 }
 
 class _EditpageState extends State<Editpage> {
-  
   @override
   void initState() {
     super.initState();
@@ -47,16 +45,16 @@ class _EditpageState extends State<Editpage> {
     courseController.text = widget.course;
     phoneController.text = widget.phone;
     imagepath = widget.image != null ? widget.image : null;
-
   }
-
- 
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(backgroundColor: Color.fromARGB(255, 21, 156, 177)),
+        appBar: AppBar(
+          backgroundColor: Color.fromARGB(255, 21, 156, 177),
+          elevation: 0,
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
@@ -126,12 +124,11 @@ class _EditpageState extends State<Editpage> {
                   ),
                   SizedBox(height: 20),
                   ElevatedButton.icon(
-                    
                     onPressed: () {
                       if (_form.currentState!.validate()) {
                         updatelist(widget.index);
-                        Navigator.of(context).pop(
-                            MaterialPageRoute(builder: (context) => listpage()));
+                        Navigator.of(context).pop(MaterialPageRoute(
+                            builder: (context) => listpage()));
                       }
                     },
                     icon: Icon(Icons.save),
@@ -147,9 +144,7 @@ class _EditpageState extends State<Editpage> {
   }
 
   _pickImage(ImageSource source) async {
-    final returnImage =
-        await ImagePicker().pickImage(source: source
-        );
+    final returnImage = await ImagePicker().pickImage(source: source);
     if (returnImage == null) {
       return;
     }
@@ -157,15 +152,4 @@ class _EditpageState extends State<Editpage> {
       imagepath = returnImage.path;
     });
   }
-
-  // _pickImageGallery() async {
-  //   final returnImage =
-  //       await ImagePicker().pickImage(source: ImageSource.gallery);
-  //   if (returnImage == null) {
-  //     return;
-  //   }
-  //   setState(() {
-  //     imagepath = returnImage.path;
-  //   });
-  }
-
+}

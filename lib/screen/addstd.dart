@@ -24,7 +24,6 @@ class _addpageState extends State<addpage> {
 
   final _form = GlobalKey<FormState>();
 
-
   File? _image;
 
   @override
@@ -32,6 +31,7 @@ class _addpageState extends State<addpage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 21, 156, 177),
+        elevation: 0,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -51,18 +51,19 @@ class _addpageState extends State<addpage> {
                           : const AssetImage('asset/avatar.png')
                               as ImageProvider),
                   onTap: () {
-                    _pickImagecamera();
+                    _pickImage(ImageSource.camera);
                   },
                 ),
                 GestureDetector(
                   child: ElevatedButton(
                     onPressed: () {
-                      _pickImageGallary();
+                      _pickImage(ImageSource.gallery);
                     },
                     child: Text('Gallary'),
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
-                           Color.fromARGB(255, 21, 156, 177),),
+                        Color.fromARGB(255, 21, 156, 177),
+                      ),
                     ),
                   ),
                 ),
@@ -109,9 +110,6 @@ class _addpageState extends State<addpage> {
                       return null;
                     }
                   },
-                ),
-                SizedBox(
-                  height: 20,
                 ),
                 TextFormField(
                   keyboardType: TextInputType.name,
@@ -168,10 +166,12 @@ class _addpageState extends State<addpage> {
                     }
                   },
                   icon: Icon(Icons.save),
-                  label: Text('submit'),style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                           Color.fromARGB(255, 21, 156, 177),),
+                  label: Text('submit'),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                      Color.fromARGB(255, 21, 156, 177),
                     ),
+                  ),
                 ),
               ],
             ),
@@ -199,25 +199,13 @@ class _addpageState extends State<addpage> {
     addstudent(_Std);
   }
 
-  _pickImageGallary() async {
-    final returnImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+  _pickImage(ImageSource source) async {
+    final returnImage = await ImagePicker().pickImage(source: source);
     if (returnImage == null) {
       return;
     }
     setState(() {
       _image = File(returnImage.path);
-    });
-  }
-
-  Future<void> _pickImagecamera() async {
-    final rtnimage = await ImagePicker().pickImage(source: ImageSource.camera);
-    if (rtnimage == null) {
-      return;
-    }
-
-    setState(() {
-      _image = File(rtnimage.path);
     });
   }
 }
