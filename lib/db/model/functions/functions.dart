@@ -29,7 +29,6 @@ Future<void> deleteStudent(int index) async {
 
 void updatelist(int index) async {
   final stdntDB = await Hive.openBox<StdModel>('stdnt_db');
-  if (index >= 0 && index < stdntDB.length) {
     final updatedstudent = StdModel(
       name: nameController.text,
       age: ageController.text,
@@ -41,4 +40,3 @@ void updatelist(int index) async {
     await stdntDB.putAt(index, updatedstudent);
     await getAllstudent();
   }
-}

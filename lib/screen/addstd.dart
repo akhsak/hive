@@ -54,6 +54,9 @@ class _addpageState extends State<addpage> {
                     _pickImage(ImageSource.camera);
                   },
                 ),
+                SizedBox(
+                  height: 10,
+                ),
                 GestureDetector(
                   child: ElevatedButton(
                     onPressed: () {
@@ -102,7 +105,7 @@ class _addpageState extends State<addpage> {
                     labelText: 'Age',
                     prefixIcon: Icon(Icons.calendar_month_rounded),
                   ),
-                  maxLength: 3,
+                  maxLength: 2,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'value is empty';
@@ -153,9 +156,6 @@ class _addpageState extends State<addpage> {
                     }
                   },
                 ),
-                SizedBox(
-                  height: 20,
-                ),
                 ElevatedButton.icon(
                   onPressed: () {
                     if (_form.currentState!.validate()) {
@@ -186,7 +186,7 @@ class _addpageState extends State<addpage> {
     final _age = _agecontroller.text.trim();
     final _course = _coursecontroller.text.trim();
     final _phone = _phonecontroller.text.trim();
-    if (_name.isEmpty || _age.isEmpty || _course.isEmpty || _phone.isEmpty) {}
+    if (_name.isEmpty || _age.isEmpty || _course.isEmpty || _phone.isEmpty) 
     print('$_name $_age $_course $_phone');
 
     final _Std = StdModel(
